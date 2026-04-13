@@ -72,6 +72,7 @@ class NoisyCausalSelfAttention(nn.Module):
         self._capture_attn = False
         self.last_attn = None  
 
+    #################### additional helper functions ####################
     def _compute_distance_matrix(self, x):
         B, T, C = x.size()
         pos_q = torch.arange(T, device=x.device).view(1, 1, T, 1)
@@ -85,6 +86,7 @@ class NoisyCausalSelfAttention(nn.Module):
         z = theta * d
         tau = self.tau0_high * torch.exp(-z) # exponential decay of precision tau
         return tau
+    #####################################################################
     
     def forward(self, x):
         B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
